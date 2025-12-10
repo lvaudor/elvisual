@@ -1,0 +1,42 @@
+---
+title: "elvisual"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{elvisual}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(elvisual)
+print(getwd())
+```
+
+Les fiches de métadonnées ont été exportées dans un dossier.
+
+```{r}
+metadata_dir=here::here("data-raw/OHM_metadata") # à adapter bien sûr
+print(metadata_dir)
+```
+
+On réimporte ces données comme tables (plusieurs formattages de tables selon les besoins).
+
+get_metadata() renvoie un tableau long car un individu= une `fiche*personne*organisation*keyword` (les lignes sont répétées)
+
+```{r}
+metadata=el_get_metadata(metadata_dir)
+head(metadata) #affiche les premières lignes de metadata
+```
+
+
+```{r}
+categories=el_get_categories(metadata_dir)
+```
+
