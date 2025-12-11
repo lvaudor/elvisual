@@ -21,7 +21,7 @@ library(elvisual)
 Les fiches de métadonnées ont été exportées dans un dossier.
 
 ```{r metadata_dir}
-metadata_dir=here::here("data-raw/OHM_metadata") # à adapter bien sûr
+metadata_dir="../data-raw/OHM_metadata" # à adapter bien sûr
 print(metadata_dir)
 ```
 
