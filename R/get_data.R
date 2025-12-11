@@ -112,7 +112,7 @@ el_get_auteurs=function(myxml){
 #' Extraire les mots clés d'une fiche metadata
 #' Récupère les mots clés, leur type (FREE, INSPIRE ou ISO) et l'identifiant associé.
 #' @param myxml Un objet XML.
-#' @return Un data.frame avec ID_fiche, keywords et types.
+#' @return Un data.frame avec ID_fiche, keywords et type.
 #' @export
 el_get_keywords=function(myxml){
   ID_fiche=myxml %>%
@@ -121,29 +121,29 @@ el_get_keywords=function(myxml){
   all_keywords=myxml %>%
     xml2::xml_find_all(".//gmd:MD_Keywords")
   keywords=c()
-  types=c()
+  type=c()
   for (k in 1:length(all_keywords)){
     tkeywords=all_keywords[k] %>%
       xml2::xml_find_all(".//gmd:keyword") %>%
       xml2::xml_text()
-    ttypes=rep("FREE",length(tkeywords))
+    ttype=rep("FREE",length(tkeywords))
     thesaurus_mentioned=all_keywords[k] %>%
       xml2::xml_find_all(".//gmd:thesaurusName") %>%
       length()
     if(thesaurus_mentioned>0){
-      ttypes=rep("INSPIRE",length(tkeywords))
+      ttype=rep("INSPIRE",length(tkeywords))
     }
 
     keywords=c(keywords,tkeywords)
-    types=c(types,ttypes)
+    type=c(type,ttype)
   }
   iso_keywords=myxml %>%
     xml2::xml_find_all(".//gmd:MD_TopicCategoryCode") %>%
     xml2::xml_text()
   keywords=c(keywords,iso_keywords)
-  types=c(types,rep("ISO",length(iso_keywords)))
+  type=c(type,rep("ISO",length(iso_keywords)))
   #####
-  dat_keywords=data.frame(ID_fiche,keywords,types)
+  dat_keywords=data.frame(ID_fiche,keywords,type)
   return(dat_keywords)
 }
 

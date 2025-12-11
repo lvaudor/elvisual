@@ -11,7 +11,7 @@ el_get_keywords(myxml)
 \item{myxml}{Un objet XML.}
 }
 \value{
-Un data.frame avec ID_fiche, keywords et types.
+Un data.frame avec ID_fiche, keywords et type.
 }
 \description{
 Extraire les mots clés d'une fiche metadata

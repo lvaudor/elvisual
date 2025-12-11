@@ -20,10 +20,16 @@ Suggests:
 VignetteBuilder: knitr
 Imports: 
     dplyr,
+    ggplot2,
     ggraph,
     ggwordcloud,
     igraph,
+    leaflet,
     lubridate,
     magrittr,
+    sf,
+    tidyr,
     xml2
 RoxygenNote: 7.3.3
+Depends: 
+    R (>= 3.5)
