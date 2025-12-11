@@ -1,7 +1,13 @@
+#' Création d'une bounding box en objet sf
+#' @param nelat Latitude nord-est
+#' @param nelng Longitude nord-est
+#' @param swlat Latitude sud-ouest
+#' @param swlng Longitude sud-ouest
 fbox <- function(nelat, nelng, swlat, swlng){
   m <- matrix(c(swlng, nelng, nelng, swlng, swlng,
                 swlat, swlat, nelat, nelat, swlat), nrow = 5)
-  return(st_polygon(list(m)))
+  result=sf::st_polygon(list(m))
+  return(result)
 }
 
 #' Génération d'une grille de densité de recouvrement des bounding box
@@ -22,9 +28,9 @@ el_map_data=function(metadata){
     sf::st_as_sf(sf_column_name = "geometry")
 
     # Calculer la densité de recouvrement des bounding box
-    grid=st_make_grid(bb, cellsize = c(0.1, 0.1)) %>%
+    grid=sf::st_make_grid(bb, cellsize = c(0.1, 0.1)) %>%
       tibble::as_tibble() %>%
-      dplyr::mutate(intersection=st_intersects(geometry,bb))  %>%
+      dplyr::mutate(intersection=sf::st_intersects(geometry,bb))  %>%
       dplyr::mutate(density=purrr::map_int(intersection,~length(.x))) %>%
       dplyr::select(-intersection) %>%
       sf::st_as_sf(sf_column_name = "geometry")
@@ -35,19 +41,18 @@ el_map_data=function(metadata){
 #' Génération d'une carte de densité de recouvrement des bounding box
 #' @param map_data Objet sf contenant une grille avec la densité de recouvrement des bounding box
 #' @param mode Mode de visualisation: "plot" pour une carte statique avec tmap (valeur par défaut), "view" pour une carte interactive avec leaflet.
-el_map=function(map_data, mode="plot", fond=fond_france){
+#' @export
+el_map=function(map_data, mode="plot"){
   if(mode=="plot"){
-    tmap_mode("plot")
-    if(fond=="fond_france"){
-      data(fond_france)
-      fond=fond_france
-    }
+    tmap::tmap_mode("plot")
+    data(fond_france)
+    fond=fond_france
 
     map=fond +
-      tm_shape(map_data) +
-      tm_polygons(fill = "density",
-                  fill.scale = tm_scale_continuous(values = "brewer.yl_or_rd"),
-                  fill.legend = tm_legend(title = "Densité",
+      tmap::tm_shape(map_data) +
+      tmap::tm_polygons(fill = "density",
+                  fill.scale = tmap::tm_scale_continuous(values = "brewer.yl_or_rd"),
+                  fill.legend = tmap::tm_legend(title = "Densité",
                                           orientation = "landscape",
                                           frame = FALSE),
                   lwd=0,

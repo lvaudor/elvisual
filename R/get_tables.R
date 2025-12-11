@@ -6,10 +6,10 @@ el_table_keywords=function(metadata){
   keywords_data=metadata %>%
     dplyr::select(ID_fiche, keywords,type) %>%
     unique() %>%
-    group_by(keywords,type) %>%
-    summarise(freq=n()) %>%
-    ungroup() %>%
-    arrange(desc(freq),keywords)
+    dplyr::group_by(keywords,type) %>%
+    dplyr::summarise(freq=dplyr::n()) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(desc(freq),keywords)
   return(keywords_data)
 }
 
@@ -22,17 +22,17 @@ el_metadata_summary=function(metadata){
     dplyr::select(ID_fiche,keywords) %>%
     unique() %>%
     dplyr::group_by(ID_fiche) %>%
-    dplyr::summarise(nkeywords=n())
+    dplyr::summarise(nkeywords=dplyr::n())
   npersonnes=metadata %>%
     dplyr::select(ID_fiche,R_personnes) %>%
     unique() %>%
     dplyr::group_by(ID_fiche) %>%
-    dplyr::summarise(npersonnes=n())
+    dplyr::summarise(npersonnes=dplyr::n())
   norganisations=metadata %>%
     dplyr::select(ID_fiche,R_orgs) %>%
     unique() %>%
     dplyr::group_by(ID_fiche) %>%
-    dplyr::summarise(norganisations=n())
+    dplyr::summarise(norganisations=dplyr::n())
   metadata_summary=metadata %>%
     dplyr::select(-R_orgs,-R_personnes,-keywords,-type) %>%
     unique() %>%
@@ -40,6 +40,4 @@ el_metadata_summary=function(metadata){
     dplyr::left_join(npersonnes,by="ID_fiche") %>%
     dplyr::left_join(norganisations,by="ID_fiche")
   return(metadata_summary)
-
-
 }

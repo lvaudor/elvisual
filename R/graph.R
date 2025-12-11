@@ -25,14 +25,14 @@ el_graph_data=function(metadata,nodetype){
     dat_tmp=g_metadata %>%
       dplyr::filter(ID_fiche==collaborations$ID_fiche[i]) %>%
       tidyr::expand(V1=linkingvar,V2=linkingvar) %>%
-      mutate(V2=dplyr::case_when(V2==V1~NA,
+      dplyr::mutate(V2=dplyr::case_when(V2==V1~NA,
                                 TRUE~V2)) %>%
-      plyr::mutate(check = purrr::map2_lgl(V1,V2,function(x,y){return(as.logical(x<y))}))
+      dplyr::mutate(check = purrr::map2_lgl(V1,V2,function(x,y){return(as.logical(x<y))}))
     dat=rbind(dat,dat_tmp)
   }
   dat=dat %>%
     dplyr::group_by(V1,V2)%>%
-    dplyr::summarise(nfiches=n()) %>%
+    dplyr::summarise(nfiches=dplyr::n()) %>%
     dplyr::arrange(desc(nfiches)) %>%
     dplyr::ungroup()
   return(dat)
@@ -58,9 +58,9 @@ el_graph=function(graph_data, shorten_name=FALSE){
   g=tidygraph::tbl_graph(nodes=nodes,edges=edges,directed=FALSE)
   layout= ggraph::create_layout(g, layout="igraph",algorithm="nicely")
   g=ggraph::ggraph(layout) +
-    ggraph::geom_edge_link(aes(edge_width=nfiches),color="grey") +
-    ggraph::geom_node_point(aes(size=nfiches)) +
-    ggraph::geom_node_text(aes(label=V1), repel=T, check_overlap=FALSE) +
+    ggraph::geom_edge_link(ggplot2::aes(edge_width=nfiches),color="grey") +
+    ggraph::geom_node_point(ggplot2::aes(size=nfiches)) +
+    ggraph::geom_node_text(ggplot2::aes(label=V1), repel=T, check_overlap=FALSE) +
     ggraph::scale_edge_width(range=c(2,6)) +
     ggplot2::scale_x_continuous(limits=extendrange(layout$x, f=0.1)) +
     ggplot2::scale_y_continuous(limits=extendrange(layout$y, f=0.1)) +
