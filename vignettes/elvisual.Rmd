@@ -26,17 +26,107 @@ metadata_dir=here::here("data-raw/OHM_metadata") # à adapter bien sûr
 print(metadata_dir)
 ```
 
-On réimporte ces données comme tables (plusieurs formattages de tables selon les besoins).
+# Chargement des packages
 
-get_metadata() renvoie un tableau long car un individu= une `fiche*personne*organisation*keyword` (les lignes sont répétées)
+```{r setup, warning=FALSE, message=FALSE}
+library(xml2)
+library(dplyr)
+library(igraph)
+library(ggraph)
+library(lubridate)
+library(tmap)
+library(elvisual)
+metadata_dir="OHM_metadata"
+```
 
-```{r}
+# Récupération des données depuis les fichiers .xml
+
+On "parse" les fichiers xml pour récupérer les quelques infos qui nous intéressent ici, à savoir les personnes impliquées dans la fiche, leur labo, et les mots-clés.
+
+
+```{r general_metadata}
 metadata=el_get_metadata(metadata_dir)
-head(metadata) #affiche les premières lignes de metadata
+head(metadata)
 ```
+
+
+```{r categories}
+categories=get_categories(metadata_dir)
+```
+
+
+# Statistiques de base
 
 
 ```{r}
-categories=el_get_categories(metadata_dir)
+metadata_summary=el_metadata_summary(metadata)
 ```
 
+
+# Nuage de mots
+
+
+```{r keywords, echo=FALSE, warning=FALSE, message=FALSE, echo=FALSE}
+table_keywords=el_table_keywords(metadata)
+head(table_keywords)
+```
+
+```{r FREE_wordcloud, fig.width=10,fig.height=8}
+table_keywords_FREE=el_table_keywords(metadata) %>% dplyr::filter(type=="FREE")
+el_wordcloud(table_keywords_FREE,keywords_to_remove=c("OHM VR","Rhône"),max_size=10)
+```
+
+```{r ISO_wordcloud, fig.width=10,fig.height=8}
+table_keywords_ISO=el_table_keywords(metadata) %>% dplyr::filter(type=="FREE")
+el_wordcloud(table_keywords_ISO,keywords_to_remove=c("OHM VR","Rhône"), max_size=15)
+```
+
+```{r wordcloud INSPIRE}
+table_keywords_INSPIRE=el_table_keywords(metadata) %>% dplyr::filter(type=="INSPIRE")
+el_wordcloud(table_keywords_INSPIRE,keywords_to_remove=c("OHM VR","Rhône"), max_size=15)
+```
+
+# GRAPHE sur collaborations_labos
+
+
+
+```{r, echo=FALSE}
+graph_data=el_graph_data(metadata,nodetype="personne")
+el_graph(graph_data, shorten_name=TRUE)
+```
+
+
+```{r, echo=FALSE}
+graph_data=el_graph_data(metadata,nodetype="organisation")
+el_graph(graph_data, shorten_name=TRUE)
+```
+
+
+# Vue temporelle
+
+
+```{r}
+table_time=el_table_time(metadata)
+```
+
+```{r,fig.width=8,fig.height=6, warning=FALSE, message=FALSE}
+el_timeline(table_time)
+```
+
+
+```{r, echo=FALSE,fig.width=12,fig.height=4, warning=FALSE, message=FALSE}
+el_timehist(table_time)
+```
+
+```{r,fig.width=6,fig.height=4}
+el_durationhist(table_time)
+```
+
+
+# Carte
+
+
+```{r map, echo=FALSE}
+map_data=el_map_data(metadata)
+el_map(map_data)
+```

@@ -33,3 +33,4 @@ Imports:
 RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.5)
+URL: https://lvaudor.github.io/elvisual/
