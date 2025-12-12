@@ -2,21 +2,16 @@
 % Please edit documentation in R/get_data.R
 \name{el_get_info}
 \alias{el_get_info}
-\title{Extraire les informations clés d'un fichier metadata XML
-Récupère l'identifiant, les dates de début et fin, l'emprise spatiale, le nombre d'OSR,
-les liens en ligne et le nombre de tables disponibles.}
+\title{Extract metadata information from an XML object}
 \usage{
 el_get_info(myxml)
 }
 \arguments{
-\item{myxml}{Un objet XML tel que renvoyé par get_xml.}
+\item{myxml}{An XML object.}
 }
 \value{
-Un data.frame avec les champs ID_fiche, debut, fin, xmin, xmax, ymin, ymax,
-nOSR, nlinks, ntables.
+A data.frame containing ID_fiche, debut, fin, xmin, xmax, ymin, ymax, supp, nlinks, ntables.
 }
 \description{
-Extraire les informations clés d'un fichier metadata XML
-Récupère l'identifiant, les dates de début et fin, l'emprise spatiale, le nombre d'OSR,
-les liens en ligne et le nombre de tables disponibles.
+Extract metadata information from an XML object
 }

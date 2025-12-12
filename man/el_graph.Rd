@@ -2,18 +2,18 @@
 % Please edit documentation in R/graph.R
 \name{el_graph}
 \alias{el_graph}
-\title{Trace le graphe}
+\title{Plot graph}
 \usage{
 el_graph(graph_data, shorten_name = FALSE)
 }
 \arguments{
-\item{graph_data}{le jeu de données du graphe, tel qu'obtenu avec el_graph_data()}
+\item{graph_data}{the graph data as obtained via el_graph_data()}
 
-\item{shorten_name}{booléen, si TRUE, raccourcit les noms des noeuds (utile pour les organisations avec des noms longs)}
+\item{shorten_name}{logical, whether to shorten the names of nodes (default: FALSE)}
 }
 \value{
-le graphe
+the graph plot
 }
 \description{
-Trace le graphe
+Plot graph
 }

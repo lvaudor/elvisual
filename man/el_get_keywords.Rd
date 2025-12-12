@@ -2,18 +2,16 @@
 % Please edit documentation in R/get_data.R
 \name{el_get_keywords}
 \alias{el_get_keywords}
-\title{Extraire les mots clés d'une fiche metadata
-Récupère les mots clés, leur type (FREE, INSPIRE ou ISO) et l'identifiant associé.}
+\title{Extracts keywords from a metadata XML object}
 \usage{
 el_get_keywords(myxml)
 }
 \arguments{
-\item{myxml}{Un objet XML.}
+\item{myxml}{An XML object.}
 }
 \value{
-Un data.frame avec ID_fiche, keywords et type.
+A data.frame with ID_fiche, keywords, and type.
 }
 \description{
-Extraire les mots clés d'une fiche metadata
-Récupère les mots clés, leur type (FREE, INSPIRE ou ISO) et l'identifiant associé.
+Extracts keywords from a metadata XML object
 }

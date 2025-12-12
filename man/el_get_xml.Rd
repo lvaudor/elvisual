@@ -2,18 +2,16 @@
 % Please edit documentation in R/get_data.R
 \name{el_get_xml}
 \alias{el_get_xml}
-\title{Charger un fichier metadata.xml
-Charge le fichier XML principal d'une fiche metadata dans son dossier.}
+\title{Gets the XML object from a metadata folder}
 \usage{
 el_get_xml(xmlpath)
 }
 \arguments{
-\item{xmlpath}{Chemin du dossier de la fiche metadata.}
+\item{xmlpath}{Path to the folder containing the metadata.}
 }
 \value{
-Un objet XML.
+An XML object read from the metadata.xml file.
 }
 \description{
-Charger un fichier metadata.xml
-Charge le fichier XML principal d'une fiche metadata dans son dossier.
+Gets the XML object from a metadata folder
 }

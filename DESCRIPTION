@@ -1,17 +1,16 @@
 Package: elvisual
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Produit des visuels basés sur les fiches de métadonnées ElViS
 Version: 0.1.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "Lise", "Vaudor",
+      email = "lise.vaudor@ens-lyon.fr",
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+Description: Ce package permet de produire un certain nombre de visuels - nuages de mots, graphes de relations, frises temporelles, etc.) basés sur les données issues de ElVis.
+License: GPL-2
 Encoding: UTF-8
 LazyData: true
 Suggests: 

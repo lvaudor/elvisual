@@ -2,7 +2,7 @@
 % Please edit documentation in R/wordcloud.R
 \name{el_wordcloud}
 \alias{el_wordcloud}
-\title{Nuage des mots}
+\title{Create a wordcloud from a table of keywords}
 \usage{
 el_wordcloud(
   table_keywords,
@@ -13,9 +13,9 @@ el_wordcloud(
 )
 }
 \arguments{
-\item{table_keywords}{table_keywords, obtenues via el_table_keywords()}
+\item{table_keywords}{a data.frame with columns 'keywords' and 'freq'}
 
-\item{keywords_to_remove}{a vector of keywords to remove from the cloud}
+\item{keywords_to_remove}{a vector of keywords to remove from the wordcloud}
 
 \item{max_size}{the maximum size of a word}
 
@@ -24,10 +24,10 @@ el_wordcloud(
 \item{high_color}{the color of least frequent word (defaults to "#04a3bb")}
 }
 \value{
-Un data.frame avec les mots-clés, leur type, leur fréquence
+a wordcloud
 }
 \description{
-Nuage des mots
+Create a wordcloud from a table of keywords
 }
 \examples{
 metadata_keywords \%>\%

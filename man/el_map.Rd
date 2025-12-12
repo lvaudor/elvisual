@@ -2,15 +2,15 @@
 % Please edit documentation in R/map.R
 \name{el_map}
 \alias{el_map}
-\title{Génération d'une carte de densité de recouvrement des bounding box}
+\title{Generates a map visualizing the density of bounding box coverage}
 \usage{
-el_map(map_data, mode = "plot", fond = fond_france)
+el_map(map_data, mode = "plot")
 }
 \arguments{
-\item{map_data}{Objet sf contenant une grille avec la densité de recouvrement des bounding box}
+\item{map_data}{an sf object containing a grid with the density of bounding box coverage}
 
-\item{mode}{Mode de visualisation: "plot" pour une carte statique avec tmap (valeur par défaut), "view" pour une carte interactive avec leaflet.}
+\item{mode}{"plot" for static map (tmap) or "view" for interactive map (leaflet)}
 }
 \description{
-Génération d'une carte de densité de recouvrement des bounding box
+Generates a map visualizing the density of bounding box coverage
 }

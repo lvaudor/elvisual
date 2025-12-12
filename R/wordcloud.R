@@ -1,10 +1,10 @@
-#' Nuage des mots
-#' @param table_keywords table_keywords, obtenues via el_table_keywords()
-#' @param keywords_to_remove a vector of keywords to remove from the cloud
+#' Create a wordcloud from a table of keywords
+#' @param table_keywords a data.frame with columns 'keywords' and 'freq'
+#' @param keywords_to_remove a vector of keywords to remove from the wordcloud
 #' @param max_size the maximum size of a word
 #' @param low_color the color of most frequent word (defaults to  "#442484")
 #' @param high_color the color of least frequent word (defaults to "#04a3bb")
-#' @return Un data.frame avec les mots-clés, leur type, leur fréquence
+#' @return a wordcloud
 #' @export
 #' @examples
 #' metadata_keywords %>%

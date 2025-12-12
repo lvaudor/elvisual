@@ -2,16 +2,16 @@
 % Please edit documentation in R/get_data.R
 \name{el_get_auteurs}
 \alias{el_get_auteurs}
-\title{Extraire les auteurs d'une fiche metadata}
+\title{Extracts authors from a metadata XML object}
 \usage{
 el_get_auteurs(myxml)
 }
 \arguments{
-\item{myxml}{Un objet XML.}
+\item{myxml}{An XML object.}
 }
 \value{
-Un data.frame contenant ID_fiche, R_personnes et R_orgs.
+A data.frame with ID_fiche, R_personnes, and R_orgs.
 }
 \description{
-Récupère les noms des personnes et des organisations associées à la ressource.
+Extracts authors from a metadata XML object
 }

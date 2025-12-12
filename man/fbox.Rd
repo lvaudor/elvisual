@@ -2,19 +2,19 @@
 % Please edit documentation in R/map.R
 \name{fbox}
 \alias{fbox}
-\title{Création d'une bounding box en objet sf}
+\title{Creation of a sf bounding box}
 \usage{
 fbox(nelat, nelng, swlat, swlng)
 }
 \arguments{
-\item{nelat}{Latitude nord-est}
+\item{nelat}{north-east latitude}
 
-\item{nelng}{Longitude nord-est}
+\item{nelng}{north-east longitude}
 
-\item{swlat}{Latitude sud-ouest}
+\item{swlat}{south-west latitude}
 
-\item{swlng}{Longitude sud-ouest}
+\item{swlng}{south-west longitude}
 }
 \description{
-Création d'une bounding box en objet sf
+Creation of a sf bounding box
 }

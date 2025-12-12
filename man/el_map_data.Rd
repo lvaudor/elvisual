@@ -2,16 +2,16 @@
 % Please edit documentation in R/map.R
 \name{el_map_data}
 \alias{el_map_data}
-\title{Génération d'une grille de densité de recouvrement des bounding box}
+\title{Generates a grid with the density of bounding box coverage}
 \usage{
-el_map_data(metadata)
+el_map_data(data)
 }
 \arguments{
-\item{metadata}{Dataframe de métadonnées contenant les colonnes xmin, xmax, ymin, ymax}
+\item{data}{Dataframe containing metadata with bounding box coordinates}
 }
 \value{
-Objet sf contenant une grille avec la densité de recouvrement des bounding box
+an sf object containing a grid with the density of bounding box coverage
 }
 \description{
-Génération d'une grille de densité de recouvrement des bounding box
+Generates a grid with the density of bounding box coverage
 }

@@ -2,18 +2,16 @@
 % Please edit documentation in R/get_data.R
 \name{NAise}
 \alias{NAise}
-\title{Convertir un vecteur vide en NA
-Renvoie NA si le vecteur est de longueur zéro, sinon renvoie le vecteur tel quel.}
+\title{Converts a zero-length vector to NA}
 \usage{
 NAise(x)
 }
 \arguments{
-\item{x}{Un vecteur quelconque.}
+\item{x}{A vector.}
 }
 \value{
-NA ou le vecteur d'origine.
+NA if the vector has length 0, otherwise returns the vector.
 }
 \description{
-Convertir un vecteur vide en NA
-Renvoie NA si le vecteur est de longueur zéro, sinon renvoie le vecteur tel quel.
+Converts a zero-length vector to NA
 }

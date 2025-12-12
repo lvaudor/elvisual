@@ -1,28 +1,28 @@
-#' Construis le jeu de données pour le graphe
-#' @param metadata the metadata dataframe
-#' @param nodetype la nature du noeud ("personne" ou "organisation")
-#' @return un tableau avec le nombre de liaisons (nombre de fiches) entre les futurs noeuds du graphe (organisations ou personnes)
+#' Build graph data
+#' @param data the dataset as obtained via el_data()
+#' @param nodetype either "personne" or "organisation", depending on whether you want to build a graph of people or organizations
+#' @return the graph data
 #' @export
-el_graph_data=function(metadata,nodetype){
+el_graph_data=function(data,nodetype){
   if(nodetype=="personne"){
-      g_metadata=metadata %>%
+      g_data=data %>%
         dplyr::select(ID_fiche,
                       linkingvar=R_personnes)
   }
   if(nodetype=="organisation"){
-      g_metadata=metadata %>%
+      g_data=data %>%
         dplyr::select(ID_fiche,
                       linkingvar=R_orgs)
   }
-  g_metadata=g_metadata %>%
+  g_data=g_data %>%
     dplyr::mutate(linkingvar=as.vector(linkingvar)) %>%
     unique()
-  collaborations=g_metadata %>%
+  collaborations=g_data %>%
     dplyr::group_by(ID_fiche) %>%
     dplyr::tally()
   dat=c()
   for(i in 1:nrow(collaborations)){
-    dat_tmp=g_metadata %>%
+    dat_tmp=g_data %>%
       dplyr::filter(ID_fiche==collaborations$ID_fiche[i]) %>%
       tidyr::expand(V1=linkingvar,V2=linkingvar) %>%
       dplyr::mutate(V2=dplyr::case_when(V2==V1~NA,
@@ -38,10 +38,10 @@ el_graph_data=function(metadata,nodetype){
   return(dat)
 }
 
-#' Trace le graphe
-#' @param graph_data le jeu de données du graphe, tel qu'obtenu avec el_graph_data()
-#' @param shorten_name booléen, si TRUE, raccourcit les noms des noeuds (utile pour les organisations avec des noms longs)
-#' @return le graphe
+#' Plot graph
+#' @param graph_data the graph data as obtained via el_graph_data()
+#' @param shorten_name logical, whether to shorten the names of nodes (default: FALSE)
+#' @return the graph plot
 #' @export
 el_graph=function(graph_data, shorten_name=FALSE){
   if(shorten_name){

@@ -1,8 +1,8 @@
-#' Création d'une bounding box en objet sf
-#' @param nelat Latitude nord-est
-#' @param nelng Longitude nord-est
-#' @param swlat Latitude sud-ouest
-#' @param swlng Longitude sud-ouest
+#' Creation of a sf bounding box
+#' @param nelat north-east latitude
+#' @param nelng north-east longitude
+#' @param swlat south-west latitude
+#' @param swlng south-west longitude
 fbox <- function(nelat, nelng, swlat, swlng){
   m <- matrix(c(swlng, nelng, nelng, swlng, swlng,
                 swlat, swlat, nelat, nelat, swlat), nrow = 5)
@@ -10,12 +10,12 @@ fbox <- function(nelat, nelng, swlat, swlng){
   return(result)
 }
 
-#' Génération d'une grille de densité de recouvrement des bounding box
-#' @param metadata Dataframe de métadonnées contenant les colonnes xmin, xmax, ymin, ymax
-#' @return Objet sf contenant une grille avec la densité de recouvrement des bounding box
+#' Generates a grid with the density of bounding box coverage
+#' @param data Dataframe containing metadata with bounding box coordinates
+#' @return an sf object containing a grid with the density of bounding box coverage
 #' @export
-el_map_data=function(metadata){
-  bounding_boxes=metadata %>%
+el_map_data=function(data){
+  bounding_boxes=data %>%
     dplyr::select(ID_fiche,xmin,ymin,xmax,ymax) %>%
     unique() %>%
     na.omit()
@@ -38,9 +38,9 @@ el_map_data=function(metadata){
 }
 
 
-#' Génération d'une carte de densité de recouvrement des bounding box
-#' @param map_data Objet sf contenant une grille avec la densité de recouvrement des bounding box
-#' @param mode Mode de visualisation: "plot" pour une carte statique avec tmap (valeur par défaut), "view" pour une carte interactive avec leaflet.
+#' Generates a map visualizing the density of bounding box coverage
+#' @param map_data an sf object containing a grid with the density of bounding box coverage
+#' @param mode "plot" for static map (tmap) or "view" for interactive map (leaflet)
 #' @export
 el_map=function(map_data, mode="plot"){
   if(mode=="plot"){
@@ -61,7 +61,7 @@ el_map=function(map_data, mode="plot"){
   }
   if(mode=="view"){
     map=leaflet::leaflet()  %>%
-      leaflet::addProviderTiles(providers$OpenStreetMap) %>%
+      leaflet::addProviderTiles(leaflet::providers$OpenStreetMap) %>%
       leaflet::addPolygons(
         data = map_data,
         fillColor = ~leaflet::colorNumeric("YlOrRd", density)(density),

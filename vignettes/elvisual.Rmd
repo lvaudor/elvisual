@@ -20,71 +20,71 @@ library(elvisual)
 
 Les fiches de métadonnées ont été exportées dans un dossier.
 
-```{r metadata_dir}
-metadata_dir="../data-raw/OHM_metadata" # à adapter bien sûr
-print(metadata_dir)
+```{r data_dir}
+data_dir="../data-raw/OHM_metadata" 
 ```
 
 # Récupération des données depuis les fichiers .xml
 
-On récupère les informations qu'on formatte dans un tableau.
+On récupère les informations qu'on formatte dans un tableau. Les informations sont principalement récupérées par `el_data()`:
 
 ```{r general_metadata}
-metadata=el_get_metadata(metadata_dir)
+data=el_data(data_dir)
 ```
 
+Si l'on veut récupérer les catégories:
 
 ```{r categories}
-categories=el_get_categories(metadata_dir)
+categories=el_categories(data_dir)
 ```
 
+et si l'on veut un tableau formatté en une ligne = une fiche:
 
-# Statistiques de base
-
-
-```{r metadata_summary}
-metadata_summary=el_metadata_summary(metadata)
+```{r data_summary}
+data_summary=el_data_summary(data)
 ```
 
 
 # Nuages de mots
 
+On récupère une table des fréquences de mots-clés avec `el_freq_keywords()`:
+
 ```{r keywords}
-table_keywords=el_table_keywords(metadata)
-head(table_keywords)
+freq_keywords=el_freq_keywords(data)
+head(freq_keywords)
 ```
 
 ```{r wordcloud, fig.width=8,fig.height=6}
-table_keywords=el_table_keywords(metadata) %>% 
+freq_keywords=el_freq_keywords(data) %>% 
   dplyr::filter(freq>2)
 
-el_wordcloud(table_keywords,
-             keywords_to_remove=c("OHM VR","Rhône"),
-             max_size=10)
+el_wordcloud(freq_keywords,
+             keywords_to_remove=c("OHM VR","Rhône"))
 ```
 
 ```{r FREE_wordcloud, fig.width=8,fig.height=6}
-table_keywords_FREE=el_table_keywords(metadata) %>%
-  dplyr::filter(type=="FREE")
+freq_keywords_FREE=el_freq_keywords(data) %>%
+  dplyr::filter(type=="FREE", freq>1)
 
-el_wordcloud(table_keywords_FREE,
-             keywords_to_remove=c("OHM VR","Rhône"),
-             max_size=15)
+el_wordcloud(freq_keywords_FREE,
+             keywords_to_remove=c("OHM VR","Rhône"))
 ```
 
 
 # Graphes de relations
 
+On peut construire des graphes de relations entre les entités (personnes ou organisations) à partir des données. `el_graph_data()` permet de construire les données nécessaires, `el_graph()` permet de tracer le graphe.
+
 
 ```{r graph_personnes, fig.height=8, fig.width=8, warning=FALSE, message=FALSE}
-graph_data=el_graph_data(metadata,nodetype="personne")
-el_graph(graph_data, shorten_name=TRUE)
+graph_data_personnes=el_graph_data(data,nodetype="personne")
+el_graph(graph_data_personnes, shorten_name=TRUE)
 ```
 
 
 ```{r graph_organisations, fig.height=8, fig.width=8, warning=FALSE, message=FALSE}
-graph_data=el_graph_data(metadata,nodetype="organisation")
-el_graph(graph_data, shorten_name=TRUE)
+graph_data_organisations=el_graph_data(data,nodetype="organisation")
+el_graph(graph_data_organisations)
 ```
 
 
@@ -92,20 +92,20 @@ el_graph(graph_data, shorten_name=TRUE)
 
 
 ```{r}
-table_time=el_table_time(metadata)
+time_table=el_time_table(data)
 ```
 
-```{r timeline,fig.width=6,fig.height=4, warning=FALSE, message=FALSE}
-el_timeline(table_time)
+```{r time_line,fig.width=6,fig.height=4, warning=FALSE, message=FALSE}
+el_time_line(time_table)
 ```
 
 
-```{r timehist, echo=FALSE,fig.width=6,fig.height=4, warning=FALSE, message=FALSE}
-el_timehist(table_time)
+```{r time_hist, echo=FALSE,fig.width=6,fig.height=4, warning=FALSE, message=FALSE}
+el_time_hist(time_table)
 ```
 
-```{r durationhist,fig.width=6,fig.height=4, warning=FALSE, message=FALSE}
-el_durationhist(table_time)
+```{r time_duration,fig.width=6,fig.height=4, warning=FALSE, message=FALSE}
+el_time_duration(time_table)
 ```
 
 
@@ -113,15 +113,18 @@ el_durationhist(table_time)
 
 
 ```{r map, warning=FALSE, message=FALSE}
-map_data=el_map_data(metadata)
+map_data=el_map_data(data)
 ```
 
+Pour une carte statique:
 
 ```{r plot_map, warning=FALSE, message=FALSE}
 el_map(map_data, mode="plot")
 ```
 
+Pour une carte interactive :
+
 ```{r view_map, warning=FALSE, message=FALSE}
-el_map(map_data, mode="plot")
+el_map(map_data, mode="view")
 ```
 

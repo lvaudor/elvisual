@@ -1,7 +1,6 @@
-#' Extraire la date d'un vecteur de chaînes ISO
-#' Sépare une chaîne de type "YYYY-MM-DDTHH:MM:SS" et renvoie uniquement la date.
-#' @param chain Un vecteur de chaînes contenant des dates ISO avec un T.
-#' @return Un vecteur de dates sous forme de chaînes "YYYY-MM-DD".
+#' Extracts date from formatted ISO date strings
+#' @param chain A vector ISO formatted date strings.
+#' @return A vector of dates in "YYYY-MM-DD" format.
 fdate=function(chain){
   result=rep(NA,length(chain))
   for (i in 1:length(chain)){
@@ -10,20 +9,16 @@ fdate=function(chain){
   return(result)
 }
 
-#' Convertir un vecteur vide en NA
-#' Renvoie NA si le vecteur est de longueur zéro, sinon renvoie le vecteur tel quel.
-#' @param x Un vecteur quelconque.
-#' @return NA ou le vecteur d'origine.
+#' Converts a zero-length vector to NA
+#' @param x A vector.
+#' @return NA if the vector has length 0, otherwise returns the vector.
 NAise=function(x){
   if(length(x)==0)return(NA) else return(x)
 }
 
-#' Charger un fichier metadata.xml
-#' Charge le fichier XML principal d'une fiche metadata dans son dossier.
-#' @param xmlpath Chemin du dossier de la fiche metadata.
-#'
-#' @return Un objet XML.
-#' @export
+#' Gets the XML object from a metadata folder
+#' @param xmlpath Path to the folder containing the metadata.
+#' @return An XML object read from the metadata.xml file.
 el_get_xml=function(xmlpath){
   file=paste0(xmlpath,
               "/metadata/metadata.xml")
@@ -31,13 +26,9 @@ el_get_xml=function(xmlpath){
   return(myxml)
 }
 
-#' Extraire les informations clés d'un fichier metadata XML
-#' Récupère l'identifiant, les dates de début et fin, l'emprise spatiale, le nombre d'OSR,
-#' les liens en ligne et le nombre de tables disponibles.
-#' @param myxml Un objet XML tel que renvoyé par get_xml.
-#' @return Un data.frame avec les champs ID_fiche, debut, fin, xmin, xmax, ymin, ymax,
-#' nOSR, nlinks, ntables.
-#' @export
+#' Extract metadata information from an XML object
+#' @param myxml An XML object.
+#' @return A data.frame containing ID_fiche, debut, fin, xmin, xmax, ymin, ymax, supp, nlinks, ntables.
 el_get_info=function(myxml){
   ID_fiche=myxml %>%
     xml2::xml_find_first(".//gco:CharacterString") %>%
@@ -85,12 +76,10 @@ el_get_info=function(myxml){
   return(info)
 }
 
-#' Extraire les auteurs d'une fiche metadata
-#'
-#' Récupère les noms des personnes et des organisations associées à la ressource.
-#' @param myxml Un objet XML.
-#' @return Un data.frame contenant ID_fiche, R_personnes et R_orgs.
-#' @export
+
+#' Extracts authors from a metadata XML object
+#' @param myxml An XML object.
+#' @return A data.frame with ID_fiche, R_personnes, and R_orgs.
 el_get_auteurs=function(myxml){
   ID_fiche=myxml %>%
     xml2::xml_find_first(".//gco:CharacterString") %>%
@@ -109,11 +98,9 @@ el_get_auteurs=function(myxml){
   return(auteurs)
 }
 
-#' Extraire les mots clés d'une fiche metadata
-#' Récupère les mots clés, leur type (FREE, INSPIRE ou ISO) et l'identifiant associé.
-#' @param myxml Un objet XML.
-#' @return Un data.frame avec ID_fiche, keywords et type.
-#' @export
+#' Extracts keywords from a metadata XML object
+#' @param myxml An XML object.
+#' @return A data.frame with ID_fiche, keywords, and type.
 el_get_keywords=function(myxml){
   ID_fiche=myxml %>%
     xml2::xml_find_first(".//gco:CharacterString") %>%
@@ -147,15 +134,14 @@ el_get_keywords=function(myxml){
   return(dat_keywords)
 }
 
-#' Extraire toutes les métadonnées d'un répertoire
-#' Parcourt toutes les fiches dans un dossier et assemble les informations, auteurs et mots clés.
-#' @param metadata_dir Chemin du dossier contenant les fiches metadata.
-#' @return Un data.frame complet avec toutes les métadonnées fusionnées.
+#' Extract all metadata from a directory of flashcards
+#' @param data_dir Directory containing the flashcard folders.
+#' @return A data.frame with all extracted metadata.
 #' @export
-el_get_metadata=function(metadata_dir){
-  fiches=list.files(metadata_dir)
-  fiches=paste0(metadata_dir,"/",fiches)
-  all_metadata=c()
+el_data=function(data_dir){
+  fiches=list.files(data_dir)
+  fiches=paste0(data_dir,"/",fiches)
+  all_data=c()
   for (i in 1:length(fiches)){
     myxml=el_get_xml(fiches[i])
     info=el_get_info(myxml)
@@ -164,21 +150,20 @@ el_get_metadata=function(metadata_dir){
 
     dat_tmp=merge(info,auteurs,by="ID_fiche",all=T)
     dat_tmp=merge(dat_tmp,keywords,by="ID_fiche",all=T)
-    all_metadata=rbind(all_metadata,dat_tmp)
+    all_data=rbind(all_data,dat_tmp)
   }
-  return(all_metadata)
+  return(all_data)
 }
 
-#' Extraire les catégories d'un ensemble de fiches metadata#'
-#' Lit les fichiers info.xml et récupère les catégories associées à chaque fiche.
-#' @param metadata_dir Dossier où se trouvent les sous-dossiers contenant info.xml.
-#' @return Un data.frame avec les colonnes ID_fiche et categories.
+#' Extract categories from metadata files in a directory
+#' @param data_dir Directory containing the metadata folders.
+#' @return A data.frame with ID_fiche and categories.
 #' @export
-el_get_categories=function(metadata_dir){
-  files=list.files(metadata_dir)
+el_categories=function(data_dir){
+  files=list.files(data_dir)
   dat_categories=c()
   for(i in 1:length(files)){
-    file=paste0(metadata_dir,"/",files[i],"/",
+    file=paste0(data_dir,"/",files[i],"/",
                 "info.xml")
     myxml=file %>%
       xml2::read_xml(encoding="iso-8889-1")

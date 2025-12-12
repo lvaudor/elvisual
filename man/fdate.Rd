@@ -2,18 +2,16 @@
 % Please edit documentation in R/get_data.R
 \name{fdate}
 \alias{fdate}
-\title{Extraire la date d'un vecteur de chaînes ISO
-Sépare une chaîne de type "YYYY-MM-DDTHH:MM:SS" et renvoie uniquement la date.}
+\title{Extracts date from formatted ISO date strings}
 \usage{
 fdate(chain)
 }
 \arguments{
-\item{chain}{Un vecteur de chaînes contenant des dates ISO avec un T.}
+\item{chain}{A vector ISO formatted date strings.}
 }
 \value{
-Un vecteur de dates sous forme de chaînes "YYYY-MM-DD".
+A vector of dates in "YYYY-MM-DD" format.
 }
 \description{
-Extraire la date d'un vecteur de chaînes ISO
-Sépare une chaîne de type "YYYY-MM-DDTHH:MM:SS" et renvoie uniquement la date.
+Extracts date from formatted ISO date strings
 }

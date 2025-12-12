@@ -2,18 +2,18 @@
 % Please edit documentation in R/graph.R
 \name{el_graph_data}
 \alias{el_graph_data}
-\title{Construis le jeu de données pour le graphe}
+\title{Build graph data}
 \usage{
-el_graph_data(metadata, nodetype)
+el_graph_data(data, nodetype)
 }
 \arguments{
-\item{metadata}{the metadata dataframe}
+\item{data}{the dataset as obtained via el_data()}
 
-\item{nodetype}{la nature du noeud ("personne" ou "organisation")}
+\item{nodetype}{either "personne" or "organisation", depending on whether you want to build a graph of people or organizations}
 }
 \value{
-un tableau avec le nombre de liaisons (nombre de fiches) entre les futurs noeuds du graphe (organisations ou personnes)
+the graph data
 }
 \description{
-Construis le jeu de données pour le graphe
+Build graph data
 }
