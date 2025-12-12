@@ -36,6 +36,7 @@ Si l'on veut récupérer les catégories:
 
 ```{r categories}
 categories=el_categories(data_dir)
+el_plot_categories(categories)
 ```
 
 et si l'on veut un tableau formatté en une ligne = une fiche:
